@@ -3,6 +3,7 @@ echo " Welcome to Employee wage computation "
 isPresent=$((RANDOM%3));
 perHourSalary=20;
 workingHour=0;
+Days=20
 case $isPresent in
 	0)
 	echo "Employee is absent";
@@ -21,8 +22,8 @@ case $isPresent in
 
 esac
 
-salary=$(($perHourSalary * $workingHour));
+salary=$(($perHourSalary * $workingHour * $Days));
 
-echo "Employee has earned $salary $ today";
+echo "Employee has earned $salary ";
 
 
