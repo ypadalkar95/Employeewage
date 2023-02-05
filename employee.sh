@@ -1,36 +1,35 @@
-function calculateWorkingHour() {
-	case $1 in
-		0)
-			workingHour=0;
-			;;
-		1)
-			workingHour=8;
-			;;
-		2)
-			workingHour=4;
-			;;
-	esac;
-	echo $workingHour;
-}
-perHourSalary=20;
-totalSalary=0;
-totalWorkingHour=0;
-day=1;
+#constants
+WAGE_PER_HOUR=20
+IS_PART_TIME=1
+IS_FULL_TIME=2
+MAX_WORKING_DAYS=20
+MAX_WORKING_HRS=100
 
-while [[ $day -le 20 && $totalWorkingHour -lt 100 ]]
+#variables
+workhours=0
+attendence=0
+counter=0
+totalWorkingDays=0
+totalWorkingHrs=0
+totalWages=0
+function getWorkingHours(){
+        case $1 in
+                $IS_PART_TIME)  workHours=4;;
+                $IS_FULL_TIME)  workHours=8;;
+                *)              workHours=0;;
+        esac
+        echo $workHours
+}
+while [  $totalWorkingDays -lt $MAX_WORKING_DAYS ] && [  $totalWorkingHrs -lt $MAX_WORKING_HRS ]
 do
-	wHour=$(calculateWorkingHour $((RANDOM%3)));
-	totalWorkingHour=$(($totalWorkingHour + $wHour));
-	if [ $totalWorkingHour -gt 100 ]
-then
-		totalWorkingHour=$(($totalWorkingHour - $wHour));
-		break;
-	fi
-	salary=$(($perHourSalary * $wHour));
-	totalSalary=$(($totalSalary + $salary));
-	((day++));
+	workHours="$( getWorkingHours $((RANDOM%3+1)) )"
+	totalWorkingHrs=$(($totalWorkingHrs+$workHours))
+	dailyWage[totalWorkingDays]=$(($workHours*$WAGE_PER_HOUR))
+	((totalWorkingDays++))
 done
-echo "Employee has earned $totalSalary $ in a month (Total working Hour : $totalWorkingHour)";
+totalWages=$(($totalWorkingHrs*$WAGE_PER_HOUR))
+echo "Total Wages " $totalWages
+
 
 
 
